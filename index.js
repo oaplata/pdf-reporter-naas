@@ -126,6 +126,7 @@ app.post('/', async (req, res) => {
 
   // Establecer encabezados para la respuesta
   res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Disposition', 'attachment; filename=nomina-' + req.body.payroll.id + '.zip');
 
   // Enviar el archivo como descarga en la respuesta

@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk');
+// const AWS = require('aws-sdk');
 const express = require('express');
 const pdf = require('pdf-creator-node');
 const jszip = require('jszip');
@@ -7,12 +7,12 @@ const config = require('./.data.js');
 const htmlPayMethods = require('./templates/payroll/pay-methods');
 const htmlSummary = require('./templates/payroll/summary');
 
-// configure aws s3
-AWS.config.update({ region: 'us-east-1' });
-const s3 = new AWS.S3({
-  accessKeyId: config.accessKeyId,
-  secretAccessKey: config.secretAccessKey,
-});
+// // configure aws s3
+// AWS.config.update({ region: 'us-east-1' });
+// const s3 = new AWS.S3({
+//   accessKeyId: config.accessKeyId,
+//   secretAccessKey: config.secretAccessKey,
+// });
 
 const generatePDFs = async (payroll, employees) => {
   const towDigits = (number) => {
@@ -91,10 +91,6 @@ const generatePDFs = async (payroll, employees) => {
     orientation: "landscape",
   };
 
-  // const [BufferPayMethods, BufferSummary] = await Promise.all([
-  //   pdf.create(documentPayMethods, options),
-  //   pdf.create(documentSummary, options),
-  // ])
 
   const BufferPayMethods = await pdf.create(documentPayMethods, options);
   const BufferSummary = await pdf.create(documentSummary, options);
@@ -107,14 +103,16 @@ const generatePDFs = async (payroll, employees) => {
   // generate zip
   const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
 
-  // upload zip to s3
-  const params = {
-    Bucket: config.bucket,
-    Key: "pdfs/nomina-" + payroll.id + ".zip",
-    Body: zipBuffer,
-  };
-  const s3Result = await s3.upload(params).promise();
-  return s3Result;
+  return zipBuffer;
+
+  // // upload zip to s3
+  // const params = {
+  //   Bucket: config.bucket,
+  //   Key: "pdfs/nomina-" + payroll.id + ".zip",
+  //   Body: zipBuffer,
+  // };
+  // const s3Result = await s3.upload(params).promise();
+  // return s3Result;
 }
 
 app.use(express.json());
@@ -124,7 +122,21 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', async (req, res) => {
-  res.send(await generatePDFs(req.body.payroll, req.body.employees));
+  const zipBuffer = await generatePDFs(req.body.payroll, req.body.employees);
+
+  // Establecer encabezados para la respuesta
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', 'attachment; filename=nomina-' + req.body.payroll.id + '.zip');
+
+  // Enviar el archivo como descarga en la respuesta
+  res.download(zipBuffer, 'nomina-' + req.body.payroll.id + '.zip', (err) => {
+    if (err) {
+      console.log('Error al enviar la descarga:', err);
+      res.status(500).send('Error al enviar la descarga');
+    } else {
+      console.log('Descarga enviada exitosamente');
+    }
+  });
 });
 
 app.listen(80, () => {

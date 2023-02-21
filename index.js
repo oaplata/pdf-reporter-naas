@@ -130,6 +130,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', async (req, res) => {
+  console.log(req.body)
+
   const zipBuffer = await generatePDFs(req.body.payroll, req.body.employees);
 
   // Establecer encabezados para la respuesta

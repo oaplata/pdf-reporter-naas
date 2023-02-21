@@ -91,10 +91,13 @@ const generatePDFs = async (payroll, employees) => {
     orientation: "landscape",
   };
 
-  const [BufferPayMethods, BufferSummary] = await Promise.all([
-    pdf.create(documentPayMethods, options),
-    pdf.create(documentSummary, options),
-  ])
+  // const [BufferPayMethods, BufferSummary] = await Promise.all([
+  //   pdf.create(documentPayMethods, options),
+  //   pdf.create(documentSummary, options),
+  // ])
+
+  const BufferPayMethods = await pdf.create(documentPayMethods, options);
+  const BufferSummary = await pdf.create(documentSummary, options);
 
   // jszip tow buffers
   const zip = new jszip();

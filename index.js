@@ -117,6 +117,14 @@ const generatePDFs = async (payroll, employees) => {
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
+
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
@@ -126,7 +134,6 @@ app.post('/', async (req, res) => {
 
   // Establecer encabezados para la respuesta
   res.setHeader('Content-Type', 'application/zip');
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Disposition', 'attachment; filename=nomina-' + req.body.payroll.id + '.zip');
 
   // Enviar el archivo como descarga en la respuesta

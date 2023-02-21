@@ -129,14 +129,7 @@ app.post('/', async (req, res) => {
   res.setHeader('Content-Disposition', 'attachment; filename=nomina-' + req.body.payroll.id + '.zip');
 
   // Enviar el archivo como descarga en la respuesta
-  res.download(zipBuffer, 'nomina-' + req.body.payroll.id + '.zip', (err) => {
-    if (err) {
-      console.log('Error al enviar la descarga:', err);
-      res.status(500).send('Error al enviar la descarga');
-    } else {
-      console.log('Descarga enviada exitosamente');
-    }
-  });
+  res.send(zipBuffer);
 });
 
 app.listen(80, () => {

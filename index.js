@@ -115,7 +115,6 @@ const generatePDFs = async (payroll, employees) => {
   // return s3Result;
 }
 
-app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -124,6 +123,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World');

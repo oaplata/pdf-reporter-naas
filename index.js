@@ -31,9 +31,19 @@ const generatePDFs = async (payroll, employees) => {
   // format date HH:mm
   const time = towDigits(full_date.getHours()) + ":" + towDigits(full_date.getMinutes());
 
-  const payrollDay = +(payroll.summary.periodInitDate.split("/")[0] || payroll.summary.periodInitDate.split("-")[0]);
-  const payrollMonth = +(payroll.summary.periodInitDate.split("/")[1] || payroll.summary.periodInitDate.split("-")[1]) - 1;
-  const payrollYear = +(payroll.summary.periodInitDate.split("/")[2] || payroll.summary.periodInitDate.split("-")[2]);
+  let payrollDay = +payroll.summary.periodInitDate.split("/")[0];
+  let payrollMonth = +payroll.summary.periodInitDate.split("/")[1] - 1;
+  let payrollYear = +payroll.summary.periodInitDate.split("/")[2];
+
+  if (payroll.summary.periodInitDate.includes("-")) {
+    payrollDay = +(payroll.summary.periodInitDate.split("-")[2]);
+    payrollMonth = +(payroll.summary.periodInitDate.split("-")[1]) - 1;
+    payrollYear = +(payroll.summary.periodInitDate.split("-")[0]);
+  } else if (payroll.summary.periodInitDate.includes("/")) {
+    payrollDay = +(payroll.summary.periodInitDate.split("/")[0]);
+    payrollMonth = +(payroll.summary.periodInitDate.split("/")[1]) - 1;
+    payrollYear = +(payroll.summary.periodInitDate.split("/")[2]);
+  }
 
 
   const payrollDate = new Date(payrollYear, payrollMonth, payrollDay);

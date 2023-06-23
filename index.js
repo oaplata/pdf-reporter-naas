@@ -48,7 +48,7 @@ const generatePDFs = async (payroll, employees) => {
       businessName: payroll.summary.naas.name,
       rfc: payroll.summary.naas.rfc,
       period: payroll.summary.period + " / " + payrollDate.getFullYear(),
-      periodicity: payroll.payrollInfo.periodicity,
+      periodicity: (payroll.payrollInfo && payroll.payrollInfo.periodicity) || "",
       process: payroll.summary.payrollType,
       startDate: payroll.summary.periodInitDate,
       endDate: payroll.summary.periodFinalDate,
@@ -73,7 +73,7 @@ const generatePDFs = async (payroll, employees) => {
       businessName: payroll.summary.naas.name,
       rfc: payroll.summary.naas.rfc,
       period: payroll.summary.period + " / " + payrollDate.getFullYear(),
-      periodicity: payroll.payrollInfo.periodicity,
+      periodicity: (payroll.payrollInfo && payroll.payrollInfo.periodicity) || "",
       process: payroll.summary.payrollType,
       startDate: payroll.summary.periodInitDate,
       endDate: payroll.summary.periodFinalDate,
@@ -123,15 +123,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
+app.use(express.json({ limit: '200mb' }));
 
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
 app.post('/', async (req, res) => {
-  console.log(req.body)
-
   const zipBuffer = await generatePDFs(req.body.payroll, req.body.employees);
 
   // Establecer encabezados para la respuesta

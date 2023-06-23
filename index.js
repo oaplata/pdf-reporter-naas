@@ -142,6 +142,6 @@ app.post('/', async (req, res) => {
   res.send(zipBuffer);
 });
 
-app.listen(80, () => {
+app.listen(3000, () => {
   console.log('Server started');
 });

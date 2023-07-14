@@ -3,16 +3,10 @@ const express = require('express');
 const pdf = require('pdf-creator-node');
 const jszip = require('jszip');
 const app = express();
-const config = require('./.data.js');
 const htmlPayMethods = require('./templates/payroll/pay-methods');
 const htmlSummary = require('./templates/payroll/summary');
+const htmlRegistry = require('./templates/payroll/registry');
 
-// // configure aws s3
-// AWS.config.update({ region: 'us-east-1' });
-// const s3 = new AWS.S3({
-//   accessKeyId: config.accessKeyId,
-//   secretAccessKey: config.secretAccessKey,
-// });
 
 const generatePDFs = async (payroll, employees) => {
   const towDigits = (number) => {
@@ -96,6 +90,71 @@ const generatePDFs = async (payroll, employees) => {
     type: "buffer",
   };
 
+  // registry
+  const documentRegistry = {
+    html: htmlRegistry,
+    data: {
+      date,
+      time,
+      businessName: payroll.summary.naas.name,
+      rfc: payroll.summary.naas.rfc,
+      period: payroll.summary.period + " / " + payrollDate.getFullYear(),
+      periodicity: (payroll.payrollInfo && payroll.payrollInfo.periodicity) || "",
+      process: payroll.summary.payrollType,
+      startDate: payroll.summary.periodInitDate,
+      endDate: payroll.summary.periodFinalDate,
+      totalEmployees: employees.length,
+      employees: employees.map(e => ({
+        rfc: e.rfc,
+        name: e.fName + " " + e.lName + " " + e.sLName,
+        curp: e.curp,
+        nss: e.nss,
+        aniversary: e.aniversary,
+        dailySalary: e.dailySalary,
+        sdi: e.sdi,
+        tableData: `
+          <div class="table-row">
+            <div class="p">
+              ${e.listIncidences.map(i => `
+                <div>
+                  <div>
+                    ${i.key}
+                  </div>
+                  <div>
+                    ${i.description}
+                  </div>
+                  <div>
+                    ${i.amount}
+                  </div>
+                </div>
+              `)}
+            </div>
+            <div class="d">
+              ${e.listDeductions.map(i => `
+                <div>
+                  <div>
+                    ${i.key}
+                  </div>
+                  <div>
+                    ${i.description}
+                  </div>
+                  <div>
+                    ${i.amount}
+                  </div>
+                </div>
+              `)}
+            </div>
+          </div>
+        `,
+        totalEarnings: e.totalEarnings,
+        totalWageDeductions: e.totalWageDeductions,
+        netToPay: e.netToPay,
+      })),
+      netToPay: formatMoney(+payroll.summary.netToPay),
+    },
+    type: "buffer",
+  }
+
   const options = {
     format: "A4",
     orientation: "landscape",
@@ -104,25 +163,18 @@ const generatePDFs = async (payroll, employees) => {
 
   const BufferPayMethods = await pdf.create(documentPayMethods, options);
   const BufferSummary = await pdf.create(documentSummary, options);
+  const BufferRegistry = await pdf.create(documentRegistry, options);
 
   // jszip tow buffers
   const zip = new jszip();
   zip.file("formas-de-pago.pdf", BufferPayMethods);
   zip.file("resumen.pdf", BufferSummary);
+  zip.file("registro.pdf", BufferRegistry);
 
   // generate zip
   const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
 
   return zipBuffer;
-
-  // // upload zip to s3
-  // const params = {
-  //   Bucket: config.bucket,
-  //   Key: "pdfs/nomina-" + payroll.id + ".zip",
-  //   Body: zipBuffer,
-  // };
-  // const s3Result = await s3.upload(params).promise();
-  // return s3Result;
 }
 
 
@@ -142,11 +194,9 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res) => {
   const zipBuffer = await generatePDFs(req.body.payroll, req.body.employees);
 
-  // Establecer encabezados para la respuesta
   res.setHeader('Content-Type', 'application/zip');
   res.setHeader('Content-Disposition', 'attachment; filename=nomina-' + req.body.payroll.id + '.zip');
 
-  // Enviar el archivo como descarga en la respuesta
   res.send(zipBuffer);
 });
 

@@ -111,40 +111,8 @@ const generatePDFs = async (payroll, employees) => {
         aniversary: e.aniversary,
         dailySalary: e.dailySalary,
         sdi: e.sdi,
-        tableData: `
-          <div class="table-row">
-            <div class="p">
-              ${e.listIncidences.map(i => `
-                <div>
-                  <div>
-                    ${i.key}
-                  </div>
-                  <div>
-                    ${i.description}
-                  </div>
-                  <div>
-                    ${i.amount}
-                  </div>
-                </div>
-              `)}
-            </div>
-            <div class="d">
-              ${e.listDeductions.map(i => `
-                <div>
-                  <div>
-                    ${i.key}
-                  </div>
-                  <div>
-                    ${i.description}
-                  </div>
-                  <div>
-                    ${i.amount}
-                  </div>
-                </div>
-              `)}
-            </div>
-          </div>
-        `,
+        listIncidences: e.listIncidences,
+        listDeductions: e.listDeductions,
         totalEarnings: e.totalEarnings,
         totalWageDeductions: e.totalWageDeductions,
         netToPay: e.netToPay,

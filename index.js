@@ -92,8 +92,7 @@ const generatePDFs = async (payroll, employees) => {
 
   // registry
   const documentRegistry = {
-    html: htmlRegistry,
-    data: {
+    html: htmlRegistry({
       date,
       time,
       businessName: payroll.summary.naas.name,
@@ -151,7 +150,8 @@ const generatePDFs = async (payroll, employees) => {
         netToPay: e.netToPay,
       })),
       netToPay: formatMoney(+payroll.summary.netToPay),
-    },
+    }),
+    data: {},
     type: "buffer",
   }
 

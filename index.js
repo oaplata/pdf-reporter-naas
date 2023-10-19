@@ -51,7 +51,7 @@ const generatePDFs = async (payroll, employees) => {
       time,
       businessName: payroll.summary.naas.name,
       rfc: payroll.summary.naas.rfc,
-      period: payroll.summary.period + " / " + payrollDate.getFullYear(),
+      period: payroll.summary.period,
       periodicity: (payroll.payrollInfo && payroll.payrollInfo.periodicity) || "",
       process: payroll.summary.payrollType,
       startDate: payroll.summary.periodInitDate,

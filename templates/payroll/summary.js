@@ -100,7 +100,7 @@ module.exports = `
 
     .imss .row .col {
       display: inline-block;
-      width: 49%;
+      width: 48%;
     }
 
     .imss .row .col:first-child {

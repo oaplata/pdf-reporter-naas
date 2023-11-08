@@ -94,24 +94,33 @@
       margin-top: 10px;
     }
     .imss .row {
-      display: flex;
       width: 100%;
-      gap: 20px;
     }
 
     .imss .row .col {
-      flex: 1;
+      display: inline-block;
+      width: 49%;
     }
-    .imss .row .col.flex-2 {
-      flex: 2;
+
+    .imss .row .col:first-child {
+      margin-right: 1%;
     }
 
     .imss .employeesSumary .col>div {
-      display: flex;
-      justify-content: space-between;
       margin-bottom: 8px;
+      position: relative;
+      height: 10px;
     }
 
+    .imss .employeesSumary .col>div b {
+      position: absolute;
+      left: 0;
+    }
+
+    .imss .employeesSumary .col>div span {
+      position: absolute;
+      right: 0;
+    }
 
     .border-top {
       border-top: solid 1px black;
@@ -264,71 +273,107 @@
     <div class="row">
       <div class="col">
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Rubros del I.M.S.S</b>
           </div>
           <div class="col">
-            <b>Empresa</b>
-          </div>
-          <div class="col">
-            <b>Empleado</b>
+            <div class="row">
+              <div class="col">
+                <b>Empresa</b>
+              </div>
+              <div class="col">
+                <b>Empleado</b>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Cuota fija</b>
           </div>
-          <div class="col">{{ imssCoutaFijaEmpresa }}</div>
-          <div class="col">{{ imssCoutaFijaEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssCoutaFijaEmpresa }}</div>
+              <div class="col">{{ imssCoutaFijaEmpleado }}</div>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Cesantia y Vejes</b>
           </div>
-          <div class="col">{{ imssCesantiaYVejesEmpresa }}</div>
-          <div class="col">{{ imssCesantiaYVejesEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssCesantiaYVejesEmpresa }}</div>
+              <div class="col">{{ imssCesantiaYVejesEmpleado }}</div>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Excedente</b>
           </div>
-          <div class="col">{{ imssExcedenteEmpresa }}</div>
-          <div class="col">{{ imssExcedenteEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssExcedenteEmpresa }}</div>
+              <div class="col">{{ imssExcedenteEmpleado }}</div>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Gastos Médicos Pensionados</b>
           </div>
-          <div class="col">{{ imssGastosMedicosPensionesEmpresa }}</div>
-          <div class="col">{{ imssGastosMedicosPensionesEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssExcedenteEmpresa }}</div>
+              <div class="col">{{ imssExcedenteEmpleado }}</div>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Guarderia y Gastos. Prev. Soc.</b>
           </div>
-          <div class="col">{{ imssGuarderiaEmpresa }}</div>
-          <div class="col">{{ imssGuarderiaEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssGuarderiaEmpresa }}</div>
+              <div class="col">{{ imssGuarderiaEmpleado }}</div>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Invalidez y Vida</b>
           </div>
-          <div class="col">{{ imssInvalidezYVidaEmpresa }}</div>
-          <div class="col">{{ imssInvalidezYVidaEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssInvalidezYVidaEmpresa }}</div>
+              <div class="col">{{ imssInvalidezYVidaEmpleado }}</div>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>Prestaciones en Dinero</b>
           </div>
-          <div class="col">{{ imssPrestacionesEnDineroEmpresa }}</div>
-          <div class="col">{{ imssPrestacionesEnDineroEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssPrestacionesEnDineroEmpresa }}</div>
+              <div class="col">{{ imssPrestacionesEnDineroEmpleado }}</div>
+            </div>
+          </div>
         </div>
         <div class="row">
-          <div class="col flex-2">
+          <div class="col">
             <b>RT</b>
           </div>
-          <div class="col">{{ imssRTEmpresa }}</div>
-          <div class="col">{{ imssRTEmpleado }}</div>
+          <div class="col">
+            <div class="row">
+              <div class="col">{{ imssRTEmpresa }}</div>
+              <div class="col">{{ imssRTEmpleado }}</div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="col">

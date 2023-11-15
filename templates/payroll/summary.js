@@ -30,7 +30,8 @@ module.exports = `
     .table-header {
       padding: 3px;
       border: solid 1px rgba(0, 0, 0, 0.7);
-      /* background-color: rgba(0, 0, 0, 0.3); */
+      background-color: #fb8c00;
+      /* color: white; */
     }
     .table-header .row-1>div {
       display: inline-block;

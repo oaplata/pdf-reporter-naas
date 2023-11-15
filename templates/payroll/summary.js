@@ -328,8 +328,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssExcedenteEmpresa }}</div>
-              <div class="col">{{ imssExcedenteEmpleado }}</div>
+              <div class="col">{{ imssGastosMedicosPensionesEmpresa }}</div>
+              <div class="col">{{ imssGastosMedicosPensionesEmpleado }}</div>
             </div>
           </div>
         </div>

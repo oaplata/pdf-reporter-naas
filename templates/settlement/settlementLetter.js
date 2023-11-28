@@ -28,16 +28,16 @@ module.exports = (data) => `
       width: 100%;
     }
     .col, .col-3, .col-4 {
-      width: 49.9%;
+      width: 49.5%;
       padding-left: 5px;
       padding-right: 5px;
       display: inline-block;
     }
     .col-3 {
-      width: 24%;
+      width: 23%;
     }
     .col-4 {
-      width: 75%;
+      width: 74%;
     }
   </style>
 </head>

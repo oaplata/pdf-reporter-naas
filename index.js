@@ -200,7 +200,7 @@ const generateSettlementLetter = async (data) => {
 
   const options = {
     format: "A4",
-    orientation: "landscape",
+    orientation: "",
   };
 
   const BufferSettlementLetter = await pdf.create(documentSettlementLetter, options);

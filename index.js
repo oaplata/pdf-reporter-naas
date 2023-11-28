@@ -190,6 +190,7 @@ const generateSettlementLetter = async (data) => {
       percepciones: data.percepciones,
       deducciones: data.deducciones,
       totalPercepciones: data.totalPercepciones,
+      totalDeducciones: data.totalDeducciones,
       net: data.net,
       netLetras: data.netLetras,
     }),
@@ -241,7 +242,7 @@ app.post('/settlemet-letter', async (req, res) => {
   const zipBuffer = await generateSettlementLetter(req.body);
 
   res.setHeader('Content-Type', 'application/zip');
-  res.setHeader('Content-Disposition', 'attachment; filename=liquidacion-' + req.body.payroll.id + '.zip');
+  res.setHeader('Content-Disposition', 'attachment; filename=liquidacion.zip');
 
   res.send(zipBuffer);
 });

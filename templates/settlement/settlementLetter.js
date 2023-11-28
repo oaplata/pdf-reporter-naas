@@ -1,3 +1,4 @@
+module.exports = (data) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,60 +147,37 @@
     </div>
     <div class="row">
       <div class="col">
-        <div class="row">
-          <div class="col-4">
-            ${percepcion.concepto}
-          </div>
-          <div class="col-3">
-            ${percepcion.importe}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4">
-            ${percepcion.concepto}
-          </div>
-          <div class="col-3">
-            ${percepcion.importe}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4">
-            ${percepcion.concepto}
-          </div>
-          <div class="col-3">
-            ${percepcion.importe}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4">
-            ${percepcion.concepto}
-          </div>
-          <div class="col-3">
-            ${percepcion.importe}
-          </div>
-        </div>
-        <!-- ${
+        ${
           data.percepciones.map((percepcion) => {
             return `
+            <div class="row">
+              <div class="col-4">
+                ${percepcion.concepto}
+              </div>
+              <div class="col-3">
+                ${percepcion.importe}
+              </div>
+            </div>
             `;
           }).join('')
-        } -->
+        }
       </div>
       <div class="col">
-        <div class="row">
-          <div class="col-4">
-            ${deduccion.concepto}
-          </div>
-          <div class="col-3">
-            ${deduccion.importe}
-          </div>
-        </div>
-        <!-- ${
+        
+        ${
           data.deducciones.map((deduccion) => {
             return `
+            <div class="row">
+              <div class="col-4">
+                ${deduccion.concepto}
+              </div>
+              <div class="col-3">
+                ${deduccion.importe}
+              </div>
+            </div>
             `;
           }).join('')
-        } -->
+        }
       </div>
     </div>
     <br>
@@ -264,3 +242,4 @@
   </div>
 </body>
 </html>
+`

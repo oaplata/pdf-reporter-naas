@@ -6,6 +6,7 @@ const app = express();
 const htmlPayMethods = require('./templates/payroll/pay-methods');
 const htmlSummary = require('./templates/payroll/summary');
 const htmlRegistry = require('./templates/payroll/registry');
+const htmlSettlementLetter = require('./templates/settlement/settlementLetter');
 
 
 const generatePDFs = async (payroll, employees) => {
@@ -174,6 +175,45 @@ const generatePDFs = async (payroll, employees) => {
   return zipBuffer;
 }
 
+const generateSettlementLetter = async (data) => {
+  const documentSettlementLetter = {
+    html: htmlSettlementLetter({
+      clientName: data.clientName,
+      fechaImpresion: data.fechaImpresion,
+      fechaIngreso: data.fechaIngreso,
+      rfc: data.rfc,
+      fechaBaja: data.fechaBaja,
+      nombreCompleto: data.nombreCompleto,
+      diasTrabajados: data.diasTrabajados,
+      puesto: data.puesto,
+      sueldoMensual: data.sueldoMensual,
+      percepciones: data.percepciones,
+      deducciones: data.deducciones,
+      totalPercepciones: data.totalPercepciones,
+      net: data.net,
+      netLetras: data.netLetras,
+    }),
+    data: {},
+    type: "buffer",
+  }
+
+  const options = {
+    format: "A4",
+    orientation: "landscape",
+  };
+
+  const BufferSettlementLetter = await pdf.create(documentSettlementLetter, options);
+
+  // jszip tow buffers
+  const zip = new jszip();
+  zip.file("liquidacion.pdf", BufferSettlementLetter);
+  
+  // generate zip
+  const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+
+  return zipBuffer;
+}
+
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -193,6 +233,15 @@ app.post('/', async (req, res) => {
 
   res.setHeader('Content-Type', 'application/zip');
   res.setHeader('Content-Disposition', 'attachment; filename=nomina-' + req.body.payroll.id + '.zip');
+
+  res.send(zipBuffer);
+});
+
+app.post('/settlemet-letter', async (req, res) => {
+  const zipBuffer = await generateSettlementLetter(req.body);
+
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', 'attachment; filename=liquidacion-' + req.body.payroll.id + '.zip');
 
   res.send(zipBuffer);
 });

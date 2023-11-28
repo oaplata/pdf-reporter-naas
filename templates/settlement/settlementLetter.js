@@ -7,7 +7,7 @@ module.exports = (data) => `
   <style>
     * {
       font-family: Arial, Helvetica, sans-serif;
-      font-size: 12px;
+      font-size: 8px;
       border: 0;
       margin: 0;
       box-sizing: border-box;
@@ -19,7 +19,7 @@ module.exports = (data) => `
       border: 1px solid #000;
     }
     .padding {
-      padding: 10px;
+      padding: 8px;
     }
     .text-center {
       text-align: center;
@@ -29,8 +29,8 @@ module.exports = (data) => `
     }
     .col, .col-3, .col-4 {
       width: 49.5%;
-      padding-left: 5px;
-      padding-right: 5px;
+      padding-left: 4px;
+      padding-right: 4px;
       display: inline-block;
     }
     .col-3 {

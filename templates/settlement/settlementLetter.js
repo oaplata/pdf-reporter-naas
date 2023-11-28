@@ -34,10 +34,10 @@ module.exports = (data) => `
       display: inline-block;
     }
     .col-3 {
-      width: 23%;
+      width: 28%;
     }
     .col-4 {
-      width: 74%;
+      width: 70%;
     }
   </style>
 </head>

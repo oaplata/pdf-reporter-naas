@@ -1,4 +1,4 @@
-module.exports = `
+module.exports = data => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,18 +131,18 @@ module.exports = `
 </head>
 <body>
   <div class="date-time">
-    <b>Fecha:</b> {{ date }}<br />
-    <b>Hora:</b> {{ time }} 
+    <b>Fecha:</b> ${data.date}<br />
+    <b>Hora:</b> ${data.time} 
   </div>
   <div class="header">
     <div class="row">
       <div>
         <b>Razon Social</b>
-        <span>{{ businessName }}</span>
+        <span>${data.businessName}</span>
       </div>
       <div>
         <b>Periodo</b>
-        <span>{{ period }}</span>
+        <span>${data.period}</span>
       </div>
       <div>
         <b>Tipo</b>
@@ -152,17 +152,17 @@ module.exports = `
     <div class="row">
       <div>
         <b>RFC</b>
-        <span>{{ rfc }}</span>
+        <span>${data.rfc}</span>
       </div>
       <div>
         <b>Proceso</b>
-        <span>{{ process }}</span>
+        <span>${data.process}</span>
       </div>
       <div>
         <b>Del</b>
-        <span>{{ startDate }}</span>
+        <span>${data.startDate}</span>
         <b>Al</b>
-        <span>{{ endDate }}</span>
+        <span>${data.endDate}</span>
       </div>
     </div>
   </div>
@@ -186,34 +186,34 @@ module.exports = `
   </div>
   <div class="table-row">
     <div class="p">
-      {{#each perceptions}}
+      ${data.perceptions.map(p =>`
         <div>
           <div>
-            {{ this.key }}
+            ${p.key}
           </div>
           <div>
-            {{ this.description }}
+            ${p.description}
           </div>
           <div>
-            {{ this.amount }}
+            ${p.amount}
           </div>
         </div>
-      {{/each}}
+      `).join("")}
     </div>
     <div class="d">
-      {{#each deductions}}
+      ${data.deductions.map(d => `
         <div>
           <div>
-            {{ this.key }}
+            ${d.key}
           </div>
           <div>
-            {{ this.description }}
+            ${d.description}
           </div>
           <div>
-            {{ this.amount }}
+            ${d.amount}
           </div>
         </div>
-      {{/each}}
+      `).join("")}
     </div>
   </div>
   <div class="table-row t-2">
@@ -221,14 +221,14 @@ module.exports = `
       <div>
         <div></div>
         <div></div>
-        <div>{{ totalPerceptions }}</div>
+        <div>${data.totalPerceptions}</div>
       </div>
     </div>
     <div>
       <div>
         <div></div>
         <div></div>
-        <div>{{ totalDeductions }}</div>
+        <div>${data.totalDeductions}</div>
       </div>
     </div>
   </div>
@@ -236,28 +236,28 @@ module.exports = `
     <div></div>
     <div></div>
     <div>Neto a pagar</div>
-    <div>{{ netToPay }}</div>
+    <div>${data.netToPay}</div>
   </div>
   <div class="imss">
     <div class="row employeesSumary">
       <div class="col">
         <div>
           <b>Empleados Activos</b>
-          <span>{{ activeEmployees }}</span>
+          <span>${data.activeEmployees}</span>
         </div>
         <div>
           <b>Finiquitados</b>
-          <span>{{ settlementEmployees }}</span>
+          <span>${data.settlementEmployees}</span>
         </div>
         <div class="border-top">
           <b>Total de Empleados</b>
-          <span>{{ totalEmployees }}</span>
+          <span>${data.totalEmployees}</span>
         </div>
       </div>
       <div class="col">
         <div>
           <b>Empleados procesados</b>
-          <span>{{ prosecutedEmployees }}</span>
+          <span>${data.prosecutedEmployees}</span>
         </div>
       </div>
     </div>
@@ -266,7 +266,7 @@ module.exports = `
       <div class="col">
         <div>
           <b>Regitro Patronal</b>
-          <span>{{ registroPatronal }}</span>
+          <span>${data.registroPatronal}</span>
         </div>
       </div>
       <div class="col"></div>
@@ -295,8 +295,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssCoutaFijaEmpresa }}</div>
-              <div class="col">{{ imssCoutaFijaEmpleado }}</div>
+              <div class="col">${data.imssCoutaFijaEmpresa}</div>
+              <div class="col">${data.imssCoutaFijaEmpleado}</div>
             </div>
           </div>
         </div>
@@ -306,8 +306,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssCesantiaYVejesEmpresa }}</div>
-              <div class="col">{{ imssCesantiaYVejesEmpleado }}</div>
+              <div class="col">${data.imssCesantiaYVejesEmpresa}</div>
+              <div class="col">${data.imssCesantiaYVejesEmpleado}</div>
             </div>
           </div>
         </div>
@@ -317,8 +317,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssExcedenteEmpresa }}</div>
-              <div class="col">{{ imssExcedenteEmpleado }}</div>
+              <div class="col">${data.imssExcedenteEmpresa}</div>
+              <div class="col">${data.imssExcedenteEmpleado}</div>
             </div>
           </div>
         </div>
@@ -328,8 +328,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssGastosMedicosPensionesEmpresa }}</div>
-              <div class="col">{{ imssGastosMedicosPensionesEmpleado }}</div>
+              <div class="col">${data.imssGastosMedicosPensionesEmpresa}</div>
+              <div class="col">${data.imssGastosMedicosPensionesEmpleado}</div>
             </div>
           </div>
         </div>
@@ -339,8 +339,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssGuarderiaEmpresa }}</div>
-              <div class="col">{{ imssGuarderiaEmpleado }}</div>
+              <div class="col">${data.imssGuarderiaEmpresa}</div>
+              <div class="col">${data.imssGuarderiaEmpleado}</div>
             </div>
           </div>
         </div>
@@ -350,8 +350,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssInvalidezYVidaEmpresa }}</div>
-              <div class="col">{{ imssInvalidezYVidaEmpleado }}</div>
+              <div class="col">${data.imssInvalidezYVidaEmpresa}</div>
+              <div class="col">${data.imssInvalidezYVidaEmpleado}</div>
             </div>
           </div>
         </div>
@@ -361,8 +361,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssPrestacionesEnDineroEmpresa }}</div>
-              <div class="col">{{ imssPrestacionesEnDineroEmpleado }}</div>
+              <div class="col">${data.imssPrestacionesEnDineroEmpresa}</div>
+              <div class="col">${data.imssPrestacionesEnDineroEmpleado}</div>
             </div>
           </div>
         </div>
@@ -372,8 +372,8 @@ module.exports = `
           </div>
           <div class="col">
             <div class="row">
-              <div class="col">{{ imssRTEmpresa }}</div>
-              <div class="col">{{ imssRTEmpleado }}</div>
+              <div class="col">${data.imssRTEmpresa}</div>
+              <div class="col">${data.imssRTEmpleado}</div>
             </div>
           </div>
         </div>
@@ -387,7 +387,7 @@ module.exports = `
                 <b>Fondo de retiro</b>
               </div>
               <div class="col">
-                {{ imssObligacionFondoDeRetiro }}
+                ${data.imssObligacionFondoDeRetiro}
               </div>
             </div>
             <div class="row">
@@ -395,7 +395,7 @@ module.exports = `
                 <b>Impuesto Estatal</b>
               </div>
               <div class="col">
-                {{ imssObligacionImpuestoEstatal }}
+                ${data.imssObligacionImpuestoEstatal}
               </div>
             </div>
             <div class="row">
@@ -403,7 +403,7 @@ module.exports = `
                 <b>I.M.S.S Empresa</b>
               </div>
               <div class="col">
-                {{ imssObligacionImssEmpresa }}
+                ${data.imssObligacionImssEmpresa}
               </div>
             </div>
             <div class="row">
@@ -411,7 +411,7 @@ module.exports = `
                 <b>Infonavit Empresa</b>
               </div>
               <div class="col">
-                {{ imssObligacionInfonavitEmpresa }}
+                ${data.imssObligacionInfonavitEmpresa}
               </div>
             </div>
             <br>
@@ -420,7 +420,7 @@ module.exports = `
                 <b>Total de Obligaciones</b>
               </div>
               <div class="col">
-                {{ imssObligacionTotal }}
+                ${data.imssObligacionTotal}
               </div>
             </div>
           </div>
@@ -431,7 +431,7 @@ module.exports = `
                 <b>Vacaciones</b>
               </div>
               <div class="col">
-                {{ imssVacations }}
+                ${data.imssVacations}
               </div>
               <div class="col"></div>
             </div>
@@ -440,7 +440,7 @@ module.exports = `
                 <b>Prima Vacacional</b>
               </div>
               <div class="col">
-                {{ imssVacationsBonus }}
+                ${data.imssVacationsBonus}
               </div>
               <div class="col"></div>
             </div>
@@ -449,7 +449,7 @@ module.exports = `
                 <b>Aguinaldo</b>
               </div>
               <div class="col">
-                {{ imssChristmasBonus }}
+                ${data.imssChristmasBonus}
               </div>
               <div class="col"></div>
             </div>

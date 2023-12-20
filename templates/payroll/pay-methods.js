@@ -1,4 +1,4 @@
-module.exports = `
+module.exports = (data) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,14 +80,14 @@ module.exports = `
 </head>
 <body>
   <div class="date-time">
-    <b>Fecha:</b> {{ date }}<br />
-    <b>Hora:</b> {{ time }} 
+    <b>Fecha:</b> ${data.date}<br />
+    <b>Hora:</b> ${data.time} 
   </div>
   <div class="header">
     <div class="row">
       <div>
         <b>Razon Social</b>
-        <span>{{ businessName }}</span>
+        <span>${data.businessName}</span>
       </div>
       <div>
         <b>Tipo</b>
@@ -98,28 +98,28 @@ module.exports = `
     <div class="row">
       <div>
         <b>RFC</b>
-        <span>{{ rfc }}</span>
+        <span>${data.rfc}</span>
       </div>
       <div>
         <b>Periodo</b>
-        <span>{{ period }}</span>
+        <span>${data.period}</span>
       </div>
       <div>
         <b>Periodicidad</b>
-        <span>{{ periodicity }}</span>
+        <span>${data.periodicity}</span>
       </div>
     </div>
     <div class="row">
       <div></div>
       <div>
         <b>Proceso</b>
-        <span>{{ process }}</span>
+        <span>${data.process}</span>
       </div>
       <div>
         <b>Del</b>
-        <span>{{ startDate }}</span>
+        <span>${data.startDate}</span>
         <b>Al</b>
-        <span>{{ endDate }}</span>
+        <span>${data.endDate}</span>
       </div>
     </div>
   </div>
@@ -137,30 +137,30 @@ module.exports = `
       Sueldo neto
     </div>
   </div>
-  {{#each employees}}
+  ${data.employees.map(e => `
     <div class="table-row">
       <div class="rfc">
-        {{ this.rfc }}
+        ${e.rfc}
       </div>
       <div class="employee-name">
-        {{ this.name }}
+        ${e.name}
       </div>
       <div class="bank-key">
-        {{ this.clabe }}
+        ${e.clabe}
       </div>
       <div class="salary">
-        {{ this.netToPay }}
+        ${e.netToPay}
       </div>
     </div>
-  {{/each}}
+  `).join("")}
   <div class="table-footer">
     <div class="employees">
       <b>No. de empleados: </b>
-      <span>{{ employeesCount }}</span>
+      <span>${data.employeesCount}</span>
     </div>
     <div class="total">
       <b>Total</b>
-      <span>{{ netToPay }}</span>
+      <span>${data.netToPay}</span>
     </div>
   </div>
 </body>

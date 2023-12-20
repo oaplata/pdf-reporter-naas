@@ -1,4 +1,5 @@
 // const AWS = require('aws-sdk');
+const puppeteer = require('puppeteer');
 const express = require('express');
 const pdf = require('pdf-creator-node');
 const jszip = require('jszip');
@@ -7,6 +8,19 @@ const htmlPayMethods = require('./templates/payroll/pay-methods');
 const htmlSummary = require('./templates/payroll/summary');
 const htmlRegistry = require('./templates/payroll/registry');
 const htmlSettlementLetter = require('./templates/settlement/settlementLetter');
+
+
+async function htmlToPDFBuffer(html, landscape = false) {
+    const browser = await puppeteer.launch({ headless: 'new' });
+    const page = await browser.newPage();
+    await page.setContent(html);
+
+    // Genera el PDF y lo obtiene como buffer
+    const pdfBuffer = await page.pdf({ format: 'A4', landscape });
+
+    await browser.close();
+    return pdfBuffer;
+}
 
 
 const generatePDFs = async (payroll, employees) => {
@@ -46,8 +60,7 @@ const generatePDFs = async (payroll, employees) => {
 
   // pay methods
   const documentPayMethods = {
-    html: htmlPayMethods,
-    data: {
+    html: htmlPayMethods({
       date,
       time,
       businessName: payroll.summary.naas.name,
@@ -65,14 +78,13 @@ const generatePDFs = async (payroll, employees) => {
       })),
       employeesCount: employees.length,
       netToPay: formatMoney(payroll.summary.netToPay),
-    },
+    }),
     type: "buffer",
   };
 
   // summary
   const documentSummary = {
-    html: htmlSummary,
-    data: {
+    html: htmlSummary({
       date,
       time,
       businessName: payroll.summary.naas.name,
@@ -116,7 +128,7 @@ const generatePDFs = async (payroll, employees) => {
       imssVacations: formatMoney(payroll.imssVacations || 0),
       imssVacationsBonus: formatMoney(payroll.imssVacationsBonus || 0),
       imssChristmasBonus: formatMoney(payroll.imssChristmasBonus || 0),
-    },
+    }),
     type: "buffer",
   };
 
@@ -159,9 +171,13 @@ const generatePDFs = async (payroll, employees) => {
   };
 
 
-  const BufferPayMethods = await pdf.create(documentPayMethods, options);
-  const BufferSummary = await pdf.create(documentSummary, options);
-  const BufferRegistry = await pdf.create(documentRegistry, options);
+  const BufferPayMethods = await htmlToPDFBuffer(documentPayMethods.html, true);
+  const BufferSummary = await htmlToPDFBuffer(documentSummary.html, true);
+  const BufferRegistry = await htmlToPDFBuffer(documentRegistry.html, true);
+
+  // const BufferPayMethods = await pdf.create(documentPayMethods, options);
+  // const BufferSummary = await pdf.create(documentSummary, options);
+  // const BufferRegistry = await pdf.create(documentRegistry, options);
 
   // jszip tow buffers
   const zip = new jszip();
@@ -203,7 +219,8 @@ const generateSettlementLetter = async (data) => {
     orientation: "",
   };
 
-  const BufferSettlementLetter = await pdf.create(documentSettlementLetter, options);
+  const BufferSettlementLetter = await htmlToPDFBuffer(documentSettlementLetter.html);
+  // const BufferSettlementLetter = await pdf.create(documentSettlementLetter, options);
 
   // jszip tow buffers
   const zip = new jszip();

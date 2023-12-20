@@ -214,7 +214,7 @@ module.exports = (data) => `
                 ${i.amount}
               </div>
             </div>
-          `)}
+          `).join('')}
         </div>
         <div class="d">
           ${employee.listDeductions.map(i => `
@@ -229,7 +229,7 @@ module.exports = (data) => `
                 ${i.amount}
               </div>
             </div>
-          `)}
+          `).join('')}
         </div>
       </div>
       <div class="table-row t-2">
@@ -256,7 +256,7 @@ module.exports = (data) => `
       </div>
     </div>
   
-  `)}
+  `).join('')}
   <div class="resume">
     <div>
       <b>Total Empleados </b>

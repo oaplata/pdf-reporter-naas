@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "install-puppeteer": "npx puppeteer browsers install chrome"
+
+    "install-puppeteer": "npx puppeteer browsers install chrome",
+    "start": "PORT=3650 node index.js"
   },
   "keywords": [],
   "author": "",

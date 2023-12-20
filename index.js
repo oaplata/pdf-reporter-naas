@@ -264,6 +264,6 @@ app.post('/settlemet-letter', async (req, res) => {
   res.send(zipBuffer);
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log('Server started');
 });

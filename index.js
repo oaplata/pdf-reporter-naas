@@ -225,14 +225,14 @@ const generateSettlementLetter = async (data) => {
   const BufferSettlementLetter = await htmlToPDFBuffer(documentSettlementLetter.html);
   // const BufferSettlementLetter = await pdf.create(documentSettlementLetter, options);
 
-  // jszip tow buffers
-  const zip = new jszip();
-  zip.file("liquidacion.pdf", BufferSettlementLetter);
+  // // jszip tow buffers
+  // const zip = new jszip();
+  // zip.file("liquidacion.pdf", BufferSettlementLetter);
   
-  // generate zip
-  const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+  // // generate zip
+  // const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
 
-  return zipBuffer;
+  return BufferSettlementLetter;
 }
 
 

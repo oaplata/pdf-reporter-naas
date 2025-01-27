@@ -273,6 +273,7 @@ app.post('/tradingwiew', async (req, res) => {
     query: req.query,
     params: req.params,
     headers: req.headers,
+    url: req.url,
   }, null, 2));
   res.send('ok');
 });

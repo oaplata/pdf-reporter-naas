@@ -1,4 +1,5 @@
 // const AWS = require('aws-sdk');
+const https = require('https');
 const puppeteer = require('puppeteer');
 const express = require('express');
 const pdf = require('pdf-creator-node');
@@ -268,13 +269,59 @@ app.post('/settlemet-letter', async (req, res) => {
 });
 
 app.post('/tradingwiew', async (req, res) => {
-  console.log(JSON.stringify({
-    body: req.body,
-    query: req.query,
-    params: req.params,
-    headers: req.headers,
-    url: req.url,
-  }, null, 2));
+  const message = req.body.message;
+
+  const telegramToken = '7180894185:AAF2f1hbHV9SE6h4ps3unZ84E0m79AgmFCc';
+  const chatId = '-1002181322422';
+
+  const url = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
+
+  const postToTelegram = async (url, chatId, message) => {
+    const data = JSON.stringify({
+      chat_id: chatId,
+      text: message,
+    });
+  
+    const urlObj = new URL(url);
+  
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname + urlObj.search,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(data),
+      },
+    };
+  
+    return new Promise((resolve, reject) => {
+      const req = https.request(options, (res) => {
+        let responseBody = '';
+  
+        res.on('data', (chunk) => {
+          responseBody += chunk;
+        });
+  
+        res.on('end', () => {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            resolve(JSON.parse(responseBody));
+          } else {
+            reject(new Error(`HTTP Status Code: ${res.statusCode}\n${responseBody}`));
+          }
+        });
+      });
+  
+      req.on('error', (err) => {
+        reject(err);
+      });
+  
+      req.write(data);
+      req.end();
+    });
+  };
+
+  await postToTelegram(url, chatId, message);
+
   res.send('ok');
 });
 

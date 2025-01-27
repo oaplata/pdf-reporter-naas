@@ -267,6 +267,16 @@ app.post('/settlemet-letter', async (req, res) => {
   res.send(zipBuffer);
 });
 
+app.post('/tradingwiew', async (req, res) => {
+  console.log(JSON.stringify({
+    body: req.body,
+    query: req.query,
+    params: req.params,
+    headers: req.headers,
+  }, null, 2));
+  res.send('ok');
+});
+
 app.listen(process.env.PORT, () => {
   console.log('Server started');
 });

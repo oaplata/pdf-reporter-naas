@@ -196,6 +196,7 @@ const generatePDFs = async (payroll, employees) => {
 }
 
 const generateSettlementLetter = async (data) => {
+  console.log(data);
   const documentSettlementLetter = {
     html: htmlSettlementLetter({
       clientName: data.clientName,
@@ -232,6 +233,8 @@ const generateSettlementLetter = async (data) => {
   
   // // generate zip
   // const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+
+  console.log(BufferSettlementLetter);
 
   return BufferSettlementLetter;
 }

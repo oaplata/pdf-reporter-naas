@@ -224,7 +224,12 @@ const generateSettlementLetter = async (data) => {
     orientation: "",
   };
 
+  console.log(documentSettlementLetter.html);
+
   const BufferSettlementLetter = await htmlToPDFBuffer(documentSettlementLetter.html);
+
+  console.log('Tamaño del buffer de la liquidación:', BufferSettlementLetter.length);
+
   // const BufferSettlementLetter = await pdf.create(documentSettlementLetter, options);
 
   // // jszip tow buffers
@@ -263,12 +268,23 @@ app.post('/', async (req, res) => {
 });
 
 app.post('/settlemet-letter', async (req, res) => {
-  const zipBuffer = await generateSettlementLetter(req.body);
+  const BufferSettlementLetter = await generateSettlementLetter(req.body);
+
+  const zip = new jszip();
+  zip.file("liquidacion.pdf", BufferSettlementLetter);
+
+  const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
 
   res.setHeader('Content-Type', 'application/zip');
   res.setHeader('Content-Disposition', 'attachment; filename=liquidacion.zip');
 
   res.send(zipBuffer);
+
+
+  // res.setHeader('Content-Type', 'application/zip');
+  // res.setHeader('Content-Disposition', 'attachment; filename=liquidacion.zip');
+
+  // res.send(zipBuffer);
 });
 
 app.post('/tradingwiew', async (req, res) => {

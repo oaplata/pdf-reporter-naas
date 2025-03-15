@@ -271,7 +271,7 @@ app.post('/settlemet-letter', async (req, res) => {
   const BufferSettlementLetter = await generateSettlementLetter(req.body);
 
   const zip = new jszip();
-  zip.file("liquidacion.pdf", BufferSettlementLetter);
+  zip.file("carta_de_finiquito.pdf", BufferSettlementLetter);
 
   const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
 

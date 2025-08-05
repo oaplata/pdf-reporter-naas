@@ -196,7 +196,6 @@ const generatePDFs = async (payroll, employees) => {
 }
 
 const generateSettlementLetter = async (data) => {
-  console.log(data);
   const documentSettlementLetter = {
     html: htmlSettlementLetter({
       clientName: data.clientName,
@@ -224,11 +223,7 @@ const generateSettlementLetter = async (data) => {
     orientation: "",
   };
 
-  console.log(documentSettlementLetter.html);
-
   const BufferSettlementLetter = await htmlToPDFBuffer(documentSettlementLetter.html);
-
-  console.log('Tamaño del buffer de la liquidación:', BufferSettlementLetter.length);
 
   // const BufferSettlementLetter = await pdf.create(documentSettlementLetter, options);
 
@@ -238,8 +233,6 @@ const generateSettlementLetter = async (data) => {
   
   // // generate zip
   // const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
-
-  console.log(BufferSettlementLetter);
 
   return BufferSettlementLetter;
 }
@@ -259,6 +252,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', async (req, res) => {
+  console.log('Llamada a la API');
   const zipBuffer = await generatePDFs(req.body.payroll, req.body.employees);
 
   res.setHeader('Content-Type', 'application/zip');
